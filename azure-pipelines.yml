@@ -1,12 +1,14 @@
-jobs:
-- job: Windows
-  pool:
-    vmImage: 'VS2017-Win2016'
-  steps:
-   - script: |
-      docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      docker build -t uilianries/conanmsvcbase:latest .
-      docker push uilianries/conanmsvcbase:latest
-  env:
-    DOCKER_PASSWORD: $(DOCKER_PASSWORD)
-    DOCKER_USERNAME: $(DOCKER_USERNAME)
+pool:
+  vmImage: 'VS2017-Win2016'
+
+variables:
+  DOCKER_CONTAINER: 'conanmsvcbase'
+  DOCKER_IMAGE: 'uilianries/$(DOCKER_CONTAINER):latest'
+  DOCKER_PASSWORD: $(DOCKER_PASSWORD)
+  DOCKER_USERNAME: $(DOCKER_USERNAME)
+
+steps:
+- script: |
+    docker login -u "$(DOCKER_USERNAME)" -p "$(DOCKER_PASSWORD)"
+    docker build -t $(DOCKER_IMAGE) .
+    docker push $(DOCKER_IMAGE)
