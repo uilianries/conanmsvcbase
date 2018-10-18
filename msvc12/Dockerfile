@@ -14,7 +14,7 @@ RUN & "C:\windows\nuget.exe" Install MSBuild.Microsoft.VisualStudio.Web.targets 
 RUN mv 'C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v12.0\MSBuild.Microsoft.VisualStudio.Web.targets.12.0.4\tools\VSToolsPath\*' 'C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v12.0'
 
 RUN Get-ChildItem -Path 'C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v12.0' -Recurse; \
-    Get-ChildItem -Path "C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v12.0\MSBuild.Microsoft.VisualStudio.Web.targets.12.0.4" -Recurse
+    Get-ChildItem -Path 'C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v12.0\MSBuild.Microsoft.VisualStudio.Web.targets.12.0.4' -Recurse
 
 RUN OLDPATH=(Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name Path).Path; \
     Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value ($OLDPATH += ';C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\')
