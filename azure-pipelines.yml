@@ -4,8 +4,8 @@ pool:
 variables:
   DOCKER_CONTAINER: 'conanmsvcbase'
   DOCKER_IMAGE: 'uilianries/$(DOCKER_CONTAINER):latest'
-  DOCKER_PASSWORD: $(DOCKER_PASSWORD)
-  DOCKER_USERNAME: $(DOCKER_USERNAME)
+  DOCKER_PASSWORD: $(DockerPassword)
+  DOCKER_USERNAME: $(DockerUsername)
 
 steps:
 - script: |
