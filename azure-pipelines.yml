@@ -11,5 +11,13 @@ steps:
 - script: |
     docker login -u "$(DOCKER_USERNAME)" -p "$(DOCKER_PASSWORD)"
     docker build -t $(DOCKER_IMAGE) base
-    docker build -t 'uilianries/conanmsvc12' msvc12
+    docker build -t uilianries/conanmsvc12 msvc12
+    docker run -t -d --name msvc12 uilianries/conanmsvc12
+    docker exec msvc12 pip install -U conan_package_tools
+    docker exec msvc12 pip install -U conan
+    docker exec msvc12 conan user
+    docker exec msvc12 conan install gtest/1.8.1@bincrafters/stable -s arch=x86_64 -s compiler="Visual Studio" -s compiler.version=12 -s compiler.runtime=MD --build
+    docker exec msvc12 conan install gtest/1.8.1@bincrafters/stable -s arch=x86 -s compiler="Visual Studio" -s compiler.version=12 -s compiler.runtime=MD --build
+    docker stop msvc12
+    docker rm msvc12
     docker push $(DOCKER_IMAGE)
