@@ -10,5 +10,6 @@ variables:
 steps:
 - script: |
     docker login -u "$(DOCKER_USERNAME)" -p "$(DOCKER_PASSWORD)"
-    docker build -t $(DOCKER_IMAGE) .
+    docker build -t $(DOCKER_IMAGE) base
+    docker build -t 'uilianries/conanmsvc12' msvc12
     docker push $(DOCKER_IMAGE)
