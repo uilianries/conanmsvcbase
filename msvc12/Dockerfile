@@ -16,11 +16,11 @@ RUN mv 'C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v12.0\MSBuild.Micr
 RUN Get-ChildItem -Path 'C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v12.0' -Recurse; \
     Get-ChildItem -Path 'C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v12.0\MSBuild.Microsoft.VisualStudio.Web.targets.12.0.4' -Recurse
 
-RUN OLDPATH=(Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name Path).Path; \
-    Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value ($OLDPATH += ';C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\')
-
-RUN NEWPATH=(Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name Path).Path; \
-    Write-Host "$NEWPATH"
+RUN $OldPath = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name Path).Path
+RUN $NewPath = OldPath + ';C:\\Program Files (x86)\\MSBuild\\12.0\\Bin'
+RUN Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name Path -Value $NewPath
+RUN $ActualPath = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name Path).Path
+RUN Write-Host "$ActualPath"
 
 WORKDIR "C:/Users/ContainerAdministrator"
 ENTRYPOINT ["C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\msbuild.exe"]
